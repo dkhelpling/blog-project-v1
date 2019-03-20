@@ -5,8 +5,25 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// create database connection
-mongoose.connect("mongodb://localhost:27017/blog-project-v1");
+var mongoDB =
+  "mongodb+srv://admin:<password>@cluster0-ywchl.mongodb.net/test?retryWrites=true";
+
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true
+});
+let db = mongoose.connection;
+
+// Checking connection
+db.once("open", function() {
+  console.log("Connected to MongoDB");
+});
+
+// Check for DB errors
+db.on("error", err => {
+  console.log(err);
+});
+
+// Bring in models
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -20,6 +37,12 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+// Make the db accessible to the router
+app.use(function(req, res, next) {
+  req.db = db;
+  next();
+});
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -35,8 +58,8 @@ app.use("/gryffin", gryffinRouter);
 app.use("/food", foodRouter);
 
 // create post schema for mongoose
-var postSchema = new mongoose.Schema({ body: String });
-var Post = mongoose.model("Post", postSchema);
+var nameSchema = new mongoose.Schema({ firstName: String, lastName: String });
+var User = mongoose.model("User", nameSchema);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
