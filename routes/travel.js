@@ -1,9 +1,10 @@
 var express = require("express");
 var router = express.Router();
+var User = require("../models/User");
 
 /* GET users listing. */
-router.get("/", function(req, res, next) {
-  res.render("index", { title: "Layers of Life" });
+router.get("/travel", function(req, res, next) {
+  res.render("travel", { title: "Layers of Life" });
   console.log("test works");
 });
 

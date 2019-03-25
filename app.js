@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var session = require("express-session");
 
 var mongoDB = "mongodb://localhost:27017/userlist";
 
@@ -36,9 +37,23 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+// Use sessions for tracking logins
+app.use(
+  session({
+    secret: "treehouse loves you",
+    resave: true,
+    saveUninitialized: false
+  })
+);
+
 // Make the db accessible to the router
 app.use(function(req, res, next) {
   req.db = db;
+  next();
+});
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.userId;
   next();
 });
 
