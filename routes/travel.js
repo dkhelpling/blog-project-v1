@@ -4,7 +4,7 @@ var User = require("../models/User");
 
 /* GET users listing. */
 router.get("/travel", function(req, res, next) {
-  res.render("travel", { title: "Layers of Life" });
+  res.render("travel", { title: "Travel" });
   console.log("test works");
 });
 

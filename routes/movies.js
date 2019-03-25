@@ -4,7 +4,8 @@ var User = require("../models/User");
 
 /* GET movies listing. */
 router.get("/movies", function(req, res, next) {
-  res.send("respond with a resource");
+  res.render("movies", { title: "Movies" });
+  console.log("test works");
 });
 
 module.exports = router;
