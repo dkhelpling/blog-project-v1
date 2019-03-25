@@ -1,8 +1,10 @@
 /* Base Styles */
 
 body {
-  background: #1d2a33;
+  /* background: #1d2a33; */
+  background: darkslategray;
   background-size: cover;
+  color: white;
 }
 
 a:hover {
