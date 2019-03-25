@@ -34,22 +34,22 @@ router.get("/gryffin", function(req, res, next) {
 });
 
 router.get("/gryffin_admin", mid.requiresLogin, function(req, res, next) {
-  return res.render("gryffin", { title: "Gryffin" });
+  return res.render("gryffin_admin", { title: "Gryffin" });
   console.log("test works");
 });
 
 router.get("/food_admin", mid.requiresLogin, function(req, res, next) {
-  return res.render("food", { title: "Food" });
+  return res.render("food_admin", { title: "Food" });
   console.log("test works");
 });
 
 router.get("/travel_admin", mid.requiresLogin, function(req, res, next) {
-  return res.render("travel", { title: "Travel" });
+  return res.render("travel_admin", { title: "Travel" });
   console.log("test works");
 });
 
 router.get("/movie_admin", mid.requiresLogin, function(req, res, next) {
-  return res.render("movie", { title: "Movie" });
+  return res.render("movie_admin", { title: "Movie" });
   console.log("test works");
 });
 
@@ -76,6 +76,20 @@ router.post("/admin", function(req, res, next) {
     var err = new Error("Email and password are required");
     err.status = 401;
     return next(err);
+  }
+});
+
+// GET /logout
+router.get("/logout", function(req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.redirect("/");
+      }
+    });
   }
 });
 
