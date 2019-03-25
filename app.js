@@ -25,11 +25,11 @@ db.on("error", err => {
 
 // Bring in routes
 
-var index = require("./routes/index");
-var travel = require("./routes/travel");
-var movies = require("./routes/movies");
-var gryffin = require("./routes/gryffin");
-var food = require("./routes/food");
+var routes = require("./routes/index");
+// var travel = require("./routes/travel");
+// var movies = require("./routes/movies");
+// var gryffin = require("./routes/gryffin");
+// var food = require("./routes/food");
 
 var app = express();
 
@@ -40,7 +40,7 @@ app.set("view engine", "pug");
 // Use sessions for tracking logins
 app.use(
   session({
-    secret: "treehouse loves you",
+    secret: "My blog project",
     resave: true,
     saveUninitialized: false
   })
@@ -64,15 +64,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Load routes
-app.use("/", index);
-app.use("/travel", travel);
-app.use("/movies", movies);
-app.use("/gryffin", gryffin);
-app.use("/food", food);
 
-// create post schema for mongoose
-var adminSchema = new mongoose.Schema({ firstName: String, lastName: String });
-var User = mongoose.model("User", nameSchema);
+app.use("/", routes);
+// app.use("/travel", travel);
+// app.use("/movies", movies);
+// app.use("/gryffin", gryffin);
+// app.use("/food", food);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
