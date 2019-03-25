@@ -1,8 +1,29 @@
+/* Base Styles */
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #1d2a33 url("../images/bg.jpg") no-repeat;
+  background-size: cover;
 }
 
-a {
-  color: #00B7FF;
+a:hover {
+  color: rgba(49, 176, 213, 0.7);
+}
+
+/* Component Styles */
+
+.navbar {
+  padding: 1rem 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+.lead {
+  margin-bottom: 2.5rem;
+}
+.main {
+  color: #fff;
+  min-height: calc(100vh - 34px);
+}
+.foot {
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.6);
 }
