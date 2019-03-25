@@ -4,8 +4,13 @@ var User = require("../models/User");
 
 /* GET users listing. */
 router.get("/travel", function(req, res, next) {
-  res.render("travel", { title: "Travel" });
-  console.log("test works");
+  if (req.session) {
+    res.render("travel_admin", { title: "Travel" });
+    console.log("test works for admin");
+  } else {
+    res.render("travel", { title: "Travel" });
+    console.log("test works");
+  }
 });
 
 module.exports = router;
