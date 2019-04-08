@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var session = require("express-session");
 
 var mongoDB = "mongodb://localhost:27017/userlist";
 
@@ -24,11 +25,11 @@ db.on("error", err => {
 
 // Bring in routes
 
-var index = require("./routes/index");
-var travel = require("./routes/travel");
-var movies = require("./routes/movies");
-var gryffin = require("./routes/gryffin");
-var food = require("./routes/food");
+var routes = require("./routes/index");
+// var travel = require("./routes/travel");
+// var movies = require("./routes/movies");
+// var gryffin = require("./routes/gryffin");
+// var food = require("./routes/food");
 
 var app = express();
 
@@ -36,9 +37,23 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+// Use sessions for tracking logins
+app.use(
+  session({
+    secret: "My blog project",
+    resave: true,
+    saveUninitialized: false
+  })
+);
+
 // Make the db accessible to the router
 app.use(function(req, res, next) {
   req.db = db;
+  next();
+});
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.userId;
   next();
 });
 
@@ -49,15 +64,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Load routes
-app.use("/", index);
-app.use("/travel", travel);
-app.use("/movies", movies);
-app.use("/gryffin", gryffin);
-app.use("/food", food);
 
-// create post schema for mongoose
-var adminSchema = new mongoose.Schema({ firstName: String, lastName: String });
-var User = mongoose.model("User", nameSchema);
+app.use("/", routes);
+// app.use("/travel", travel);
+// app.use("/movies", movies);
+// app.use("/gryffin", gryffin);
+// app.use("/food", food);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

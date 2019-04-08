@@ -15,7 +15,11 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-inverse
       li.nav-item
         a.nav-link(href='/movies') Movies
     ul.navbar-nav.float-right
-      li.nav-item
-        a.nav-link(href='/login') Logout
+    if currentUser
+      div
+        li.nav-item
+          // a.nav-link(href='/login') Logout
+          a.btn.btn-light.pull-md-right(href='/logout') Log out
+
 
 
